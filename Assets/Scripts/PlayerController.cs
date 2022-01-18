@@ -6,14 +6,16 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] float speed = 1;
+    [SerializeField] EggSpawner eggSpawner = null;
 
-    SegmentSpawner spawner = null;
+    SegmentSpawner segmentSpawner = null;
     float counter = 0;
     Quaternion rotation = new Quaternion();
     
     void Start()
     {
-        spawner = this.gameObject.GetComponent<SegmentSpawner>();
+        segmentSpawner = this.gameObject.GetComponent<SegmentSpawner>();
+        eggSpawner.spawnRandom(segmentSpawner.getSegments());
     }
     
     void Update()
@@ -53,7 +55,7 @@ public class PlayerController : MonoBehaviour
 
     void moveSnake()
     {
-        List<Segment> segments = spawner.getSegments();
+        List<Segment> segments = segmentSpawner.getSegments();
 
         for (int i = segments.Count - 1; i > 0; i--)
         {
@@ -78,8 +80,8 @@ public class PlayerController : MonoBehaviour
     {
         if (other.gameObject.tag == "Food")
         {
-            spawner.addSegment();
-            Destroy(other.gameObject);
+            segmentSpawner.addSegment();
+            other.GetComponent<EggSpawner>().spawnRandom(segmentSpawner.getSegments());
         }
         
     }
