@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] float speed = 1;
     [SerializeField] EggSpawner eggSpawner = null;
+    [SerializeField] AudioSource gulp = null;
 
     SegmentSpawner segmentSpawner = null;
     float counter = 0;
@@ -73,6 +74,7 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.tag == "Wall" || other.gameObject.tag == "Snake")
         {
             speed = 0;
+            transform.GetComponent<Rigidbody>().isKinematic = true;
         }
     }
 
@@ -82,6 +84,7 @@ public class PlayerController : MonoBehaviour
         {
             segmentSpawner.addSegment();
             other.GetComponent<EggSpawner>().spawnRandom(segmentSpawner.getSegments());
+            gulp.Play();
         }
         
     }
