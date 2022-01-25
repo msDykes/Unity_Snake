@@ -6,21 +6,20 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] float speed = 1;
-    [SerializeField] EggSpawner eggSpawner = null;
     [SerializeField] AudioSource gulp = null;
-
+    
+    bool ateEgg = false;
     SegmentSpawner segmentSpawner = null;
     float counter = 0;
     Quaternion rotation = new Quaternion();
     
     void Start()
     {
-        segmentSpawner = this.gameObject.GetComponent<SegmentSpawner>();
-        eggSpawner.spawnRandom(segmentSpawner.getSegments());
+        segmentSpawner = gameObject.GetComponent<SegmentSpawner>();
     }
     
     void Update()
-    {
+    {     
         counter += Time.deltaTime;
         if (speed > 0)
         {
@@ -32,6 +31,16 @@ public class PlayerController : MonoBehaviour
                 moveSnake();
             }
         }
+    }
+
+    public bool haveEaten()
+    {
+        return ateEgg;
+    }
+
+    public void hungry()
+    {
+        ateEgg = false;
     }
 
     void processInput()
@@ -83,7 +92,7 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.tag == "Food")
         {
             segmentSpawner.addSegment();
-            other.GetComponent<EggSpawner>().spawnRandom(segmentSpawner.getSegments());
+            ateEgg = true;
             gulp.Play();
         }
         

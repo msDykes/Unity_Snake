@@ -13,14 +13,6 @@ public class SegmentSpawner : MonoBehaviour
         buildSnake();        
     }
 
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            addSegment();
-        }        
-    }
-
     public void addSegment()
     {
         Segment lastSegment = segments[segments.Count - 1];
