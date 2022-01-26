@@ -9,6 +9,7 @@ public class SnakeController : MonoBehaviour
     [SerializeField] UnityEvent gameOver = null;
 
     Vector3 startPosition = Vector3.zero;
+    Quaternion startRotation = Quaternion.identity;
     SnakeBody body = null;
     float counter = 0;
     Quaternion rotation = new Quaternion();
@@ -16,6 +17,7 @@ public class SnakeController : MonoBehaviour
     void Start()
     {
         startPosition = transform.position;
+        startRotation = transform.rotation;
         body = gameObject.GetComponent<SnakeBody>();
         eatEgg.Invoke();
     }
@@ -43,6 +45,8 @@ public class SnakeController : MonoBehaviour
     public void resetPosition()
     {
         transform.position = startPosition;
+        transform.rotation = startRotation;
+        rotation = startRotation;
         foreach (Segment segment in body.getSegments())
         {
             Destroy(segment.gameObject);
