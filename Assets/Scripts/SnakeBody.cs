@@ -1,8 +1,7 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SegmentSpawner : MonoBehaviour
+public class SnakeBody : MonoBehaviour
 {
     [SerializeField] Segment segmentPrefab = null;
 
@@ -53,7 +52,7 @@ public class SegmentSpawner : MonoBehaviour
         return segments;
     }
 
-    void buildSnake()
+    public void buildSnake()
     {
         Vector3 startPosition = transform.position;
         startPosition.z -= 1;

@@ -112,12 +112,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1044835243304927595}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b33555b7a61a5849853cce17484e260, type: 3}
+  m_Script: {fileID: 11500000, guid: 8103a41103cb052469a75d424ce863f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
-  eggPrefab: {fileID: 526756708795190785, guid: 2c971d34392c48841867b3198fb0cae2, type: 3}
-  gulp: {fileID: 2558175834973779285}
+  speed: 0
 --- !u!54 &1044835243304927585
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -143,7 +141,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1044835243304927595}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b37dc2ce900efe143acec787a707099a, type: 3}
+  m_Script: {fileID: 11500000, guid: 932bcd93e8885e6409e4e48cd6abecb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   segmentPrefab: {fileID: 1522036043647936304, guid: c5d8ab6fa72bf5b4bbf43f95a5e690b6, type: 3}

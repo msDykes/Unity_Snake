@@ -1,21 +1,23 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
-public class PlayerController : MonoBehaviour
+public class SnakeController : MonoBehaviour
 {
-    [SerializeField] float speed = 1;
-    [SerializeField] AudioSource gulp = null;
-    
-    bool ateEgg = false;
-    SegmentSpawner segmentSpawner = null;
+    [SerializeField] float speed = 0f;
+    [SerializeField] UnityEvent eatEgg = null;
+    [SerializeField] UnityEvent gameOver = null;
+
+    Vector3 startPosition = Vector3.zero;
+    SnakeBody body = null;
     float counter = 0;
     Quaternion rotation = new Quaternion();
     
     void Start()
     {
-        segmentSpawner = gameObject.GetComponent<SegmentSpawner>();
+        startPosition = transform.position;
+        body = gameObject.GetComponent<SnakeBody>();
+        eatEgg.Invoke();
     }
     
     void Update()
@@ -33,14 +35,21 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public bool haveEaten()
+    public void setSpeed(float amount)
     {
-        return ateEgg;
+        speed = amount;
     }
 
-    public void hungry()
+    public void resetPosition()
     {
-        ateEgg = false;
+        transform.position = startPosition;
+        foreach (Segment segment in body.getSegments())
+        {
+            Destroy(segment.gameObject);
+        }
+        body.getSegments().Clear();
+        body.buildSnake();
+        transform.GetComponent<Rigidbody>().isKinematic = false;
     }
 
     void processInput()
@@ -65,7 +74,7 @@ public class PlayerController : MonoBehaviour
 
     void moveSnake()
     {
-        List<Segment> segments = segmentSpawner.getSegments();
+        List<Segment> segments = body.getSegments();
 
         for (int i = segments.Count - 1; i > 0; i--)
         {
@@ -82,8 +91,8 @@ public class PlayerController : MonoBehaviour
     {
         if (other.gameObject.tag == "Wall" || other.gameObject.tag == "Snake")
         {
-            speed = 0;
             transform.GetComponent<Rigidbody>().isKinematic = true;
+            gameOver.Invoke();
         }
     }
 
@@ -91,10 +100,9 @@ public class PlayerController : MonoBehaviour
     {
         if (other.gameObject.tag == "Food")
         {
-            segmentSpawner.addSegment();
-            ateEgg = true;
-            gulp.Play();
+            body.addSegment();
+            eatEgg.Invoke();
+            transform.GetComponent<AudioSource>().Play();
         }
-        
     }
 }
